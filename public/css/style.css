@@ -1,0 +1,28 @@
+body {
+    font-family: 'Balsamiq Sans', cursive;
+    margin: auto;
+    background-color: lightblue;
+    background: url(../images/balloons.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    
+}
+
+#home-container {
+    margin:auto;
+}
+
+
+.card, h1 {
+    margin: auto;
+
+}
+
+.card {
+
+    background-image: url(../images/birthdaycake.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+   /* opacity: 0.3 ; */
+
+}

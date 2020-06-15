@@ -15,14 +15,7 @@ body {
 
 .card, h1 {
     margin: auto;
+    text-align: center;
 
 }
 
-.card {
-
-    background-image: url(../images/birthdaycake.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-   /* opacity: 0.3 ; */
-
-}

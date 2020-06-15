@@ -4,27 +4,33 @@
 
 {% block body %}
 
-<h1> Kidanniv, le site qui vous permet de réaliser l'anniversaire de ses rêves</h1>
-<div class="container" id="home-container">
-
+<h1 class="white"> Kidanniv, le site qui vous permet de réaliser l'anniversaire de ses rêves</h1>
+<div class="container">
     <div class="row">
-        <a href="#">
         <div class="col-6">
-            <p>
-                J'organise un anniversaire
-            </p>
-        </div>
-</a>
-{# {{ path ('user_home') }} #}
-<a href="#">
-        <div class="col-6">
-            <p>
-                Je propose mes prestations
-            </p>
-        </div>
-</a>
-    </div>
 
-     
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src=" {{ asset ('images/childrenandbaloons.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">J'organise un anniversaire</h5>
+                    <p class="card-text">Trouvez les prestataires autour de moi.</p>
+                    <a href="#" class="btn btn-primary">C'est parti</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6">
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ asset ('images/magicien.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Je propose mes prestations</h5>
+                    <p class="card-text">Proposez mes prestations autour de moi</p>
+                    <a href="#" class="btn btn-primary">C'est parti!</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

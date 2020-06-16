@@ -16,9 +16,18 @@ body {
 .card, h1 {
     margin: auto;
     text-align: center;
-    color: white;
+    
 
 }
-.write {
+h1 {
     color: white;
+    font-size: 1.3em;
+}
+
+#jumbotron {
+    color: blueviolet;
+}
+
+.no-decoration {
+    text-decoration: none;
 }

@@ -10,9 +10,3 @@ PRESTATION: type, age_cible, prix, propose-par_fk
 AVEC DES, 1N PRESTATION, 0N FETE
 
 PROPOSEE PAR, 0N PRESTATAIRE, 1N PRESTATION
-
-
-
-
-
-

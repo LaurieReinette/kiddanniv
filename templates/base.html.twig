@@ -15,12 +15,17 @@
 </head>
 
 <body>
-        <nav class="navbar navbar-light bg-light">
+        {# <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="{{ path('home') }}">
               <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
               Kidanniv
             </a>
-          </nav>
+          </nav> #}
+          <a class="no-decoration" href="{{ path('home') }}">
+          <div class="jumbotron">
+            <h1 id="jumbotron">Bienvenue sur Kidanniv</h1>
+         </div>
+        </a>
     
         {# <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -39,7 +44,14 @@
         </nav> #}
         {% block body %}{% endblock %}
 
-
+        <footer>
+            <ul class="list-inline text-center mt-4">
+                <li class="list-inline-item">Contact</li>
+                <li class="list-inline-item">A propos</li>
+                <li class="list-inline-item">Vie privée</li>
+                <li class="list-inline-item">Conditions d'utilisation</li>
+             </ul>
+        </footer>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">

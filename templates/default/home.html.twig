@@ -1,33 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Kidanniv - Accueil{% endblock %}
+{% block title %}Kidparty - Accueil{% endblock %}
 
 {% block body %}
 
-<h1 class="white"> Kidanniv, le site qui vous permet de réaliser l'anniversaire de ses rêves</h1>
+<h1 class="white on-image"> Kidparty, le site qui vous permet de réaliser la fête de ses rêves</h1>
+<h2 class="white text-center on-image">Anniversaire, fête, bar/bat-mitsva ou autres</h2>
+<p class="white text-center on-image">Choississez les options de votre fête, et recevez les devis de nos partenaires autour de chez vous</p>
 <div class="container">
     <div class="row mt-4">
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2 ">
 
 
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; height: 25rem;">
                 <img class="card-img-top" src=" {{ asset ('images/childrenandbaloons.jpg') }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">J'organise un anniversaire</h5>
+                    <h5 class="card-title">J'organise une fête</h5>
                     <p class="card-text">Trouvez les prestataires autour de moi.</p>
-                    <a href="#" class="btn btn-primary">C'est parti</a>
+                    <a href="{{ path('user') }}" class="btn btn-primary">C'est parti</a>
                 </div>
             </div>
 
         </div>
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
 
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; height: 25rem;">
                 <img class="card-img-top" src="{{ asset ('images/magicien.jpg') }}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">Je propose mes prestations</h5>
+                    <h5 class="card-title">Je suis prestataire</h5>
                     <p class="card-text">Proposez mes prestations autour de moi</p>
-                    <a href="#" class="btn btn-primary">C'est parti!</a>
+                    <a href="{{ path('pro') }}" class="btn btn-primary">C'est parti!</a>
                 </div>
             </div>
         </div>

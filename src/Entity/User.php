@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,7 +23,10 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @Assert\Email(
+     *     message = "Entrez une adresse mail valide"
+     * )
+     * @ORM\Column(type="string", length=60, unique=true,)
      */
     private $email;
 
@@ -28,7 +36,14 @@ class User
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit faire au moins{{ limit }} caractères",
+     *      maxMessage = "Votre prénom de peut pas dépasser {{ limit }} caractères",
+     *      allowEmptyString = false
+     * )
+     * @ORM\Column(type="string", length=50)
      */
     private $lastname;
 
@@ -38,16 +53,25 @@ class User
     private $gender;
 
     /**
-     * @ORM\Column(type="smallint")
+     * 
+     * @Assert\Range(
+     *      min = 01000,
+     *      max = 97699,
+     *      notInRangeMessage = "Entre un code postal valide",
+     * )
+     * @Assert\
+     * @ORM\Column(type="smallint", options={"unsigned":true})
      */
     private $postalcode;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * 
+     * @ORM\Column(type="string", length=50 )
      */
     private $city;
 
     /**
+     * @Assert\Choice({1,2,3})
      * @ORM\Column(type="smallint")
      */
     private $departement;
@@ -76,6 +100,16 @@ class User
      * @ORM\Column(type="datetime")
      */
     private $createdat;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Party::class, mappedBy="organised_by")
+     */
+    private $parties;
+
+    public function __construct()
+    {
+        $this->parties = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -222,6 +256,37 @@ class User
     public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Party[]
+     */
+    public function getParties(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addParty(Party $party): self
+    {
+        if (!$this->parties->contains($party)) {
+            $this->parties[] = $party;
+            $party->setOrganisedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParty(Party $party): self
+    {
+        if ($this->parties->contains($party)) {
+            $this->parties->removeElement($party);
+            // set the owning side to null (unless already changed)
+            if ($party->getOrganisedBy() === $this) {
+                $party->setOrganisedBy(null);
+            }
+        }
 
         return $this;
     }

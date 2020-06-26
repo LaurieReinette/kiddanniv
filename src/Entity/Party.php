@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PartyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,28 @@ class Party
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $moderate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="parties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organised_by;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Delivery::class, inversedBy="parties")
+     */
+    private $prestations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Pro::class, inversedBy="parties")
+     */
+    private $pros;
+
+    public function __construct()
+    {
+        $this->prestations = new ArrayCollection();
+        $this->pros = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +161,70 @@ class Party
     public function setModerate(?bool $moderate): self
     {
         $this->moderate = $moderate;
+
+        return $this;
+    }
+
+    public function getOrganisedBy(): ?User
+    {
+        return $this->organised_by;
+    }
+
+    public function setOrganisedBy(?User $organised_by): self
+    {
+        $this->organised_by = $organised_by;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Delivery[]
+     */
+    public function getPrestations(): Collection
+    {
+        return $this->prestations;
+    }
+
+    public function addPrestation(Delivery $prestation): self
+    {
+        if (!$this->prestations->contains($prestation)) {
+            $this->prestations[] = $prestation;
+        }
+
+        return $this;
+    }
+
+    public function removePrestation(Delivery $prestation): self
+    {
+        if ($this->prestations->contains($prestation)) {
+            $this->prestations->removeElement($prestation);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pro[]
+     */
+    public function getPros(): Collection
+    {
+        return $this->pros;
+    }
+
+    public function addPro(Pro $pro): self
+    {
+        if (!$this->pros->contains($pro)) {
+            $this->pros[] = $pro;
+        }
+
+        return $this;
+    }
+
+    public function removePro(Pro $pro): self
+    {
+        if ($this->pros->contains($pro)) {
+            $this->pros->removeElement($pro);
+        }
 
         return $this;
     }

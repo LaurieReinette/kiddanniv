@@ -74,6 +74,11 @@ class Pro
      */
     private $deliveries;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
     public function __construct()
     {
         $this->parties = new ArrayCollection();
@@ -245,6 +250,18 @@ class Pro
             $this->deliveries->removeElement($delivery);
             $delivery->removePro($this);
         }
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }

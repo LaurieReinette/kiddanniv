@@ -6,6 +6,7 @@ use App\Repository\DeliveryTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DeliveryTypeRepository::class)
@@ -38,6 +39,11 @@ class DeliveryType
      * @ORM\ManyToMany(targetEntity=Delivery::class, mappedBy="type")
      */
     private $deliveries;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archived;
 
     public function __construct()
     {
@@ -109,6 +115,18 @@ class DeliveryType
             $this->deliveries->removeElement($delivery);
             $delivery->removeType($this);
         }
+
+        return $this;
+    }
+
+    public function getArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
 
         return $this;
     }

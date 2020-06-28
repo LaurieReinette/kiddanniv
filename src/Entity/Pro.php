@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\ProRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProRepository::class)
+ * @UniqueEntity(fields={"email"}, message="Un compte est déjà enregistré avec cette adresse")
  */
-class Pro
+class Pro implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -20,16 +24,54 @@ class Pro
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     *@Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas un email valide, merci de corriger."
+     * )
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre prénom ne peut pas dépasser {{ limit }} caractères",
+     *      allowEmptyString = false
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre prénom ne peut contenir de chiffre"
+     * )
      * @ORM\Column(type="string", length=60)
      */
     private $firstname;
 
     /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre nom ne peut pas dépasser {{ limit }} caractères",
+     *      allowEmptyString = false
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom ne peut contenir de chiffre"
+     * )
      * @ORM\Column(type="string", length=70)
      */
     private $lastname;
@@ -45,16 +87,27 @@ class Pro
     private $firm;
 
     /**
-     * @ORM\Column(type="smallint")
+     *@Assert\Choice({"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","2A","2B","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","87","88","89","90","91","92","93","94","95","971","972","973","974","976"})
+     *@ORM\Column(type="smallint")
      */
     private $departement_shifting;
 
     /**
+     * @Assert\Regex(
+     *     pattern="/^0[67]([0-9]{2}){4}/",
+     *     match=false,
+     *     message="Entre un numéro de portable débutant par 06 ou 07"
+     * )
      * @ORM\Column(type="smallint")
      */
     private $mobilephone;
 
     /**
+     * @Assert\Regex(
+     *     pattern="/^0[12345679]([0-9]{2}){4}/",
+     *     match=false,
+     *     message="Entre un numéro de téléphone valide"
+     * )
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $otherphone;
@@ -75,20 +128,10 @@ class Pro
     private $deliveries;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
-    private $password;
+    private $archived;
 
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
-
-    public function __construct()
-    {
-        $this->parties = new ArrayCollection();
-        $this->deliveries = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -103,6 +146,50 @@ class Pro
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
@@ -259,26 +346,31 @@ class Pro
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return $this->password;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function setPassword(string $password): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->password = $password;
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function getRoles(): ?array
+    public function getArchived(): ?bool
     {
-        return $this->roles;
+        return $this->archived;
     }
 
-    public function setRoles(array $roles): self
+    public function setArchived(bool $archived): self
     {
-        $this->roles = $roles;
+        $this->archived = $archived;
 
         return $this;
     }

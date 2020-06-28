@@ -6,6 +6,7 @@ use App\Repository\PartyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PartyRepository::class)
@@ -20,17 +21,20 @@ class Party
     private $id;
 
     /**
+     * @Assert\DateTime
      * @ORM\Column(type="date")
      */
     private $date;
 
     /**
+     * @Assert\Time
      * @ORM\Column(type="time")
      */
     private $hour_start;
 
     /**
-     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @ORM\Column(type="time", nullable=true)
      */
     private $hour_end;
 
@@ -69,6 +73,11 @@ class Party
      * @ORM\ManyToMany(targetEntity=Pro::class, inversedBy="parties")
      */
     private $pros;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archived;
 
     public function __construct()
     {
@@ -225,6 +234,18 @@ class Party
         if ($this->pros->contains($pro)) {
             $this->pros->removeElement($pro);
         }
+
+        return $this;
+    }
+
+    public function getArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
 
         return $this;
     }

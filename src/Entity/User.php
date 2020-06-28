@@ -3,17 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="Un compte est déjà enregistré avec cette adresse")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -23,12 +24,23 @@ class User
     private $id;
 
     /**
-     * @Assert\Email(
-     *     message = "Entrez une adresse email valide"
+     *@Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas un email valide, merci de corriger."
      * )
-     * @ORM\Column(type="string", length=60, unique=true,)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
     /**
      * @Assert\Length(
@@ -66,7 +78,7 @@ class User
 
     /**
      * 
-     * @ORM\Column(type="string", length=10, columnDefinition="enum('Monsieur', 'Madame')")
+     * @ORM\Column(type="string", length=10)
      */
     private $gender;
 
@@ -130,19 +142,10 @@ class User
     private $parties;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
-    private $password;
+    private $archived;
 
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
-
-    public function __construct()
-    {
-        $this->parties = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -160,6 +163,51 @@ class User
 
         return $this;
     }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
 
     public function getFirstname(): ?string
     {
@@ -313,26 +361,31 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return $this->password;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function setPassword(string $password): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->password = $password;
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function getRoles(): ?array
+    public function getArchived(): ?bool
     {
-        return $this->roles;
+        return $this->archived;
     }
 
-    public function setRoles(array $roles): self
+    public function setArchived(bool $archived): self
     {
-        $this->roles = $roles;
+        $this->archived = $archived;
 
         return $this;
     }

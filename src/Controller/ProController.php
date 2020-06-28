@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProController extends AbstractController
 {
     /**
-     * @Route("/pro", name="pro")
+     * @Route("/prestataire", name="service_provider")
      */
     public function index()
     {

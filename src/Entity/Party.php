@@ -79,6 +79,11 @@ class Party
      */
     private $archived;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
@@ -246,6 +251,18 @@ class Party
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

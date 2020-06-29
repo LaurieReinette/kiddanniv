@@ -45,7 +45,7 @@ class User implements UserInterface
     /**
      * @Assert\Length(
      *      min = 2,
-     *      max = 50,
+     *      max = 51,
      *      minMessage = "Votre prénom doit faire au moins {{ limit }} caractères",
      *      maxMessage = "Votre prénom ne peut pas dépasser {{ limit }} caractères",
      *      allowEmptyString = false
@@ -89,7 +89,7 @@ class User implements UserInterface
      *      max = 97699,
      *      notInRangeMessage = "Entrez un code postal valide",
      * )
-     * @ORM\Column(type="smallint", options={"unsigned":true})
+     * @ORM\Column(type="integer", options={"unsigned":true})
      */
     private $postalcode;
 
@@ -100,11 +100,10 @@ class User implements UserInterface
     private $city;
 
     /**
-     * @Assert\Choice({"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","2A","2B","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","87","88","89","90","91","92","93","94","95","971","972","973","974","976"})
      * @ORM\Column(type="smallint")
      */
     private $departement;
-
+    //"02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","2A","2B","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","87","88","89","90","91","92","93","94","95","971","972","973","974","976"
 
     /**
      * @Assert\Regex(
@@ -112,7 +111,7 @@ class User implements UserInterface
      *     match=false,
      *     message="Entre un numéro de portable débutant par 06 ou 07"
      * )
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
      */
     private $mobilephone;
 
@@ -122,7 +121,7 @@ class User implements UserInterface
      *     match=false,
      *     message="Entre un numéro de téléphone valide"
      * )
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $otherphone;
 
@@ -145,6 +144,11 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $archived;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $role;
 
 
     public function getId(): ?int
@@ -386,6 +390,18 @@ class User implements UserInterface
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

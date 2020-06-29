@@ -12,10 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/organiser")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/organiser", name="organize")
+     * @Route("/", name="organize")
      */
     public function index()
     {
@@ -23,7 +26,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/organiser/creer-un-compte", name="organize_create_account")
+     * @Route("/creer-un-compte", name="organize_create_account")
      */
     public function createAccount(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $manager): Response
     {
@@ -40,7 +43,11 @@ class UserController extends AbstractController
             // Puis on replace le mot de passe hashé dans $user
             $user->setPassword($encodedPassword);
             $user->setMobilephone(false);
-            $user->setRoles[]
+            $user->setRole('ROLE_USER');
+            $roles[] = 'ROLE_USER';
+            $user->setRoles($roles);
+            $user->setCreatedat(new \Datetime);
+            $user->setArchived(false);
 
             // On reprend le fil ordinaire des choses, en persistant et flush $user
             $entityManager = $this->getDoctrine()->getManager();
@@ -51,17 +58,29 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/create_account.html.twig', [
-            // 'user' => $user,
+            'user' => $user,
             'formView' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/mon-compte", name="organize_home")
+     * @Route("/mon-compte/{id}", name="organize_home")
      */
-    public function accountHomepage()
+    public function accountHomepage(User $user)
     {
-        return $this->render('user/organize_home.html.twig');
+        return $this->render('user/organize_home.html.twig', [
+            "user" => $user
+        ]);
+    }
+
+    /**
+     * @Route("/mes-prestations/{id}", name="organize_list")
+     */
+    public function listParties(User $user)
+    {
+        return $this->render('user/organize_list.html.twig', [
+            "user" => $user
+        ]);
     }
 
     

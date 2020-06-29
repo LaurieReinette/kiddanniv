@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20200629095958 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE pro ADD roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', ADD departement_shifting SMALLINT NOT NULL, CHANGE mobilephone mobilephone SMALLINT NOT NULL, CHANGE otherphone otherphone SMALLINT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', CHANGE postalcode postalcode SMALLINT UNSIGNED NOT NULL, CHANGE mobilephone mobilephone SMALLINT NOT NULL, CHANGE otherphone otherphone SMALLINT DEFAULT NULL');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE pro DROP roles, DROP departement_shifting, CHANGE mobilephone mobilephone INT NOT NULL, CHANGE otherphone otherphone INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user DROP roles, CHANGE postalcode postalcode INT UNSIGNED NOT NULL, CHANGE mobilephone mobilephone INT NOT NULL, CHANGE otherphone otherphone INT DEFAULT NULL');
+    }
+}

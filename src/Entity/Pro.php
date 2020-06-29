@@ -98,7 +98,7 @@ class Pro implements UserInterface
      *     match=false,
      *     message="Entre un numéro de portable débutant par 06 ou 07"
      * )
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
      */
     private $mobilephone;
 
@@ -108,7 +108,7 @@ class Pro implements UserInterface
      *     match=false,
      *     message="Entre un numéro de téléphone valide"
      * )
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $otherphone;
 
@@ -131,6 +131,11 @@ class Pro implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $archived;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
 
 
     public function getId(): ?int
@@ -371,6 +376,18 @@ class Pro implements UserInterface
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

@@ -31,8 +31,14 @@ body {
 #home-container {
     margin:auto;
 }
-
-
+#pro {
+    width: 70%;
+    margin: auto, 0;
+}
+#pro_departments {
+    display: flex;
+    flex-wrap: wrap;
+}
 .card, h1 {
     margin: auto;
     text-align: center;

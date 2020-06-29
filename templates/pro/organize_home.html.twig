@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+
+
+{% block title %}Prestataire - Tableau de bord{% endblock %}
 {% block body %}
 <h1> Mon compte</h1>
 
@@ -19,10 +22,13 @@
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2 ">
 
             <ul class="list-group">
-                <a href="{{ path('organize_list', {'id': user.id}) }}"><li class="list-group-item">Mes prestations</li>
+                <a href="{{ path('service_provider_list', {'id': pro.id}) }}">
+                    <li class="list-group-item">Mes demandes de devis</li>
                 </a>
-                <li class="list-group-item">Mon compte</li>
-              </ul>
+                <a href="{{ path('organize_list', {'id': pro.id}) }}">
+                    <li class="list-group-item">Mes prestations</li>
+                </a>             
+            </ul>
 
             
 

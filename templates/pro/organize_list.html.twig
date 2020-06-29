@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block title %}Prestataire - Mes demandes de devis{% endblock %}
 
 {% block body %}
 
@@ -9,7 +10,7 @@
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2 ">
 
 
-            {% for party in user.parties %}
+            {% for party in pro.parties %}
 
             Nom: {{ party.name}}
             {# Age de l'enfant: {{ party.child_children }} #}

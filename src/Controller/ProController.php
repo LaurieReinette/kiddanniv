@@ -52,8 +52,11 @@ class ProController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($pro);
             $entityManager->flush();
+            $id=$pro->getId();
 
-            return $this->redirectToRoute('pro_home');
+            return $this->redirectToRoute('pro_home', 
+            ['id' => $id, 
+            'pro' => $pro]);
         }
 
         return $this->render('pro/create_account.html.twig', [
@@ -67,9 +70,18 @@ class ProController extends AbstractController
      */
     public function accountHomepage(Pro $pro)
     {
-        return $this->render('user/organize_home.html.twig', [
+        return $this->render('pro/organize_home.html.twig', [
             "pro" => $pro
         ]);
     }
 
+    /**
+     * @Route("/devis-recus/{id}", name="service_provider_list")
+     */
+    public function listParties(Pro $pro)
+    {
+        return $this->render('pro/organize_list.html.twig', [
+            "pro" => $pro
+        ]);
+    }
 }

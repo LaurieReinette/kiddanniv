@@ -78,7 +78,7 @@ class UserType extends AbstractType
                 ]
             )
             ->add('department', EntityType::class, [
-                "label" => "Catégories",
+                "label" => "Département",
                 "class" => Department::class,
                 "choice_label" => "number",
                 "by_reference" => false

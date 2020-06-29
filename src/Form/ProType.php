@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Pro;
+use App\Entity\Department;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -10,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -83,8 +86,16 @@ class ProType extends AbstractType
                 "label" => "Autre numéro de téléphone",
             ]
             )
-            // à modifier:
-        ->add('departements_shifting')
+            
+        ->add('departments', EntityType::class, 
+            [
+                "label" => "Département(s) de déplacement",
+                "class" => Department::class,
+                "choice_label" => "number",
+                "multiple" => true,
+                "expanded" => true,
+                "by_reference" => false
+                    ])
             
         ;
     }

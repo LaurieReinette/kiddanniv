@@ -42,7 +42,7 @@ class UserController extends AbstractController
             $encodedPassword = $passwordEncoder->encodePassword($user, $password);
             // Puis on replace le mot de passe hashé dans $user
             $user->setPassword($encodedPassword);
-            $user->setMobilephone(false);
+            $user->setModerate(false);
             $user->setRole('ROLE_USER');
             $roles[] = 'ROLE_USER';
             $user->setRoles($roles);

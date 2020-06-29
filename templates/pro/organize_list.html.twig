@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1> Mes demandes de prestations </h1>
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2 ">
+
+
+            {% for party in user.parties %}
+
+            Nom: {{ party.name}}
+            {# Age de l'enfant: {{ party.child_children }} #}
+
+            {% endfor %}
+
+        </div>
+
+{% endblock %}

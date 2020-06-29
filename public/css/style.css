@@ -21,7 +21,7 @@ time, mark, audio, video {
 body {
     font-family: 'Balsamiq Sans', cursive;
     margin: auto;
-    background-color: lightblue;
+    background-color: #f0f;
     background: url(../images/balloons.jpg);
     background-repeat: no-repeat;
     background-position: center;
@@ -48,7 +48,7 @@ h2 {
 }
 
 .white {
-    color: white;
+    color:#f0f;
 }
 
 

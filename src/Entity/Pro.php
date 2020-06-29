@@ -86,29 +86,24 @@ class Pro implements UserInterface
      */
     private $firm;
 
-    /**
-     *@Assert\Choice({"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","2A","2B","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","87","88","89","90","91","92","93","94","95","971","972","973","974","976"})
-     *@ORM\Column(type="smallint")
-     */
-    private $departement_shifting;
-
+    
     /**
      * @Assert\Regex(
      *     pattern="/^0[67]([0-9]{2}){4}/",
      *     match=false,
      *     message="Entre un numéro de portable débutant par 06 ou 07"
      * )
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=10)
      */
     private $mobilephone;
 
-    /**
+   /**
      * @Assert\Regex(
      *     pattern="/^0[12345679]([0-9]{2}){4}/",
      *     match=false,
      *     message="Entre un numéro de téléphone valide"
      * )
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $otherphone;
 
@@ -136,6 +131,22 @@ class Pro implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $address;
+
+    
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $role;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Department::class, mappedBy="Pro")
+     */
+    private $departments;
+
+    public function __construct()
+    {
+        $this->departments = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -247,18 +258,7 @@ class Pro implements UserInterface
         return $this;
     }
 
-    public function getDepartementShifting(): ?int
-    {
-        return $this->departement_shifting;
-    }
-
-    public function setDepartementShifting(int $departement_shifting): self
-    {
-        $this->departement_shifting = $departement_shifting;
-
-        return $this;
-    }
-
+    
     public function getMobilephone(): ?int
     {
         return $this->mobilephone;
@@ -391,4 +391,47 @@ class Pro implements UserInterface
 
         return $this;
     }
+
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Department[]
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    public function addDepartment(Department $department): self
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments[] = $department;
+            $department->addPro($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartment(Department $department): self
+    {
+        if ($this->departments->contains($department)) {
+            $this->departments->removeElement($department);
+            $department->removePro($this);
+        }
+
+        return $this;
+    }
+
+
 }

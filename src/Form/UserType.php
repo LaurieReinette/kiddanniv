@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
@@ -60,7 +61,11 @@ class UserType extends AbstractType
                 ]
                 ]
             ])
-            ->add('postalcode', IntegerType::class,
+            ->add('address', TextareaType::class,
+            [
+                "label" => "Adresse"
+            ])
+            ->add('postalcode', TelType::class,
             [
                 "label" => "Code postal"
             ])
@@ -68,16 +73,17 @@ class UserType extends AbstractType
             [
                 "label" => "Ville"
             ])
+            // à modifier:
             ->add('departement', IntegerType::class,
             [
                 "label" => "Numéro de département"
             ])
-            ->add('mobilephone', IntegerType::class,
+            ->add('mobilephone', TelType::class,
             [
                 "label" => "Numéro de téléphone portable",
                 'help' => 'Au format 06123456789 ou 07123456789',
             ])
-            ->add('otherphone', IntegerType::class,
+            ->add('otherphone', TelType::class,
             [
                 "label" => "Autre numéro de téléphone",
             ])

@@ -84,6 +84,13 @@ class Party
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="parties")
+     */
+    private $department;
+
+    
+
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
@@ -266,4 +273,18 @@ class Party
 
         return $this;
     }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+   
 }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Organisateur - Tableau de bord{% endblock %}
+
+{% block body %}
+
+<h1> Mon compte</h1>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12 col-l-12 col-xl-12 text-center" >
+            <h2>
+                Bienvenue {{ user.firstname }}
+            </h2>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-2 ">
+
+            <ul class="list-group">
+                <a href="{{ path('organize_list', {'id': user.id}) }}"><li class="list-group-item">Mes prestations</li>
+                </a>
+                <li class="list-group-item">Mon compte</li>
+              </ul>
+
+            
+
+        </div>
+        
+    </div>
+
+{% endblock %}

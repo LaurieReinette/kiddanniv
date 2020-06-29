@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Organisateur - Accueil {% endblock %}
+
+{% block body %}
+<h1 class="white on-image"> Espace organisateur</h1>
+<div class="container">
+    <div class="row">
+       
+        <div class="col">
+            <div class="card" style="width: 18rem; height: 25rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Création de compte</h5>
+                    <a href="{{ path('organize_create_account') }}">C'est parti</a>
+                    {# <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Adresse email</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                anyone else.</small>
+                        </div>
+                   
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Etape suivante</button>
+                    </form> #}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -51,6 +51,11 @@ h2 {
     color: white;
 }
 
+.centre
+{
+    margin: auto;
+}
+
 .on-image {
     text-shadow: 1px 1px 2px black;
 }

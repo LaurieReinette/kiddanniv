@@ -3,12 +3,15 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Department;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,13 +46,13 @@ class UserType extends AbstractType
                 
             ])
             ->add('firstname', TextType::class,
-            [
-                "label" => "Prénom"
-            ])
+                [
+                    "label" => "Prénom"
+                ])
             ->add('lastname', TextType::class,
-            [
-                "label" => "Nom"
-            ])
+                [
+                    "label" => "Nom"
+                ])
             ->add('gender', ChoiceType::class, 
             [
                 "label" => "Genre",
@@ -60,34 +63,37 @@ class UserType extends AbstractType
                     'Monsieur' => "Monsieur",
                 ]
                 ]
-            ])
+                ])
             ->add('address', TextareaType::class,
             [
                 "label" => "Adresse"
-            ])
+                ])
             ->add('postalcode', TelType::class,
             [
                 "label" => "Code postal"
             ])
             ->add('city', TextType::class,
-            [
-                "label" => "Ville"
-            ])
-            // à modifier:
-            ->add('departement', IntegerType::class,
-            [
-                "label" => "Numéro de département"
-            ])
+                [
+                    "label" => "Ville"
+                ]
+            )
+            ->add('department', EntityType::class, [
+                "label" => "Catégories",
+                "class" => Department::class,
+                "choice_label" => "number",
+                "by_reference" => false
+                ])
             ->add('mobilephone', TelType::class,
-            [
-                "label" => "Numéro de téléphone portable",
-                'help' => 'Au format 06123456789 ou 07123456789',
-            ])
-            ->add('otherphone', TelType::class,
-            [
-                "label" => "Autre numéro de téléphone",
-            ])
-        ;
+                [
+                    "label" => "Numéro de téléphone portable",
+                    'help' => 'Au format 06123456789 ou 07123456789',
+                ]
+                )
+            ->add('otherphone', TelType::class, [
+                    "label" => "Autre numéro de téléphone",
+                ]
+            );
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)

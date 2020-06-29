@@ -53,8 +53,11 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            $id=$user->getId();
 
-            return $this->redirectToRoute('organize_home');
+            return $this->redirectToRoute('organize_home',
+            ['id' => $id, 
+            'user' => $user]);
         }
 
         return $this->render('user/create_account.html.twig', [
@@ -68,9 +71,8 @@ class UserController extends AbstractController
      */
     public function accountHomepage(User $user)
     {
-        return $this->render('user/organize_home.html.twig', [
-            "user" => $user
-        ]);
+        return $this->render('user/organize_home.html.twig', [ 
+        'user' => $user]);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,6 +85,28 @@ class UserController extends AbstractController
             "user" => $user
         ]);
     }
+
+    /**
+     * @Route("/send", name="send_email")
+     */
+    public function send(\Swift_Mailer $mailer)
+{
+    $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('lauriereinette@gmail.com')
+        ->setTo('r.narisely@gmail.com')
+        ->setBody(
+            $this->renderView(
+                // templates/hello/email.txt.twig
+                'user/send_mail.html.twig'
+                
+            ),
+            'text/html'
+        )
+    ;
+    $mailer->send($message);
+
+    return $this->render('user/index.html.twig');
+}
 
     
 }
